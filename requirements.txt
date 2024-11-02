@@ -1,0 +1,10 @@
+Flask==2.1.1                 # Lightweight web framework
+flask-cors==3.0.10           # Handling Cross-Origin Resource Sharing
+mysql-connector-python==8.0.29  # MySQL database driver for Python
+SQLAlchemy==1.4.36           # ORM for database management
+Flask-SQLAlchemy==2.5.1      # SQLAlchemy integration for Flask
+Flask-RESTful==0.3.9         # Extension for creating REST APIs
+Flask-JWT-Extended==4.4.0    # JSON Web Token support for authentication
+python-dotenv==0.19.2        # For managing environment variables
+requests==2.27.1             # Making HTTP requests
+pytest==7.1.1                # Testing framework
