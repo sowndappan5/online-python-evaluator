@@ -44,3 +44,15 @@ To set up the project locally:
    ```bash
    git clone https://github.com/sowndappan5/online-python-evaluator.git
    cd online-python-evaluator
+
+2. **Install Frontend Dependencies**: Navigate to the frontend directory and install the required packages.
+
+   ```bash
+   cd client
+   npm install
+   
+3. **Install Backend Dependencies**: Navigate to the backend directory and install the required Python packages.
+
+   ```bash
+   cd ../server
+   pip install -r requirements.txt
