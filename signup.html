@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Sign-Up</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #222;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #333;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #42f5f5;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background: #222;
+      color: #fff;
+    }
+
+    input:focus {
+      outline: none;
+      border: 1px solid #42f5f5;
+    }
+
+    button {
+      padding: 0.8rem;
+      background: #42f5f5;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #222;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #3bc9c9;
+    }
+
+    a {
+      color: #42f5f5;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #3bc9c9;
+    }
+
+    p {
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <!-- Login Form -->
+      <form id="login-form" class="form">
+        <h2>Login</h2>
+        <div class="error" id="login-error"></div>
+        <div class="input-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit">Login</button>
+        <p>Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+      </form>
+
+      <!-- Sign-Up Form -->
+      <form id="signup-form" class="form hidden">
+        <h2>Sign-Up</h2>
+        <div class="error" id="signup-error"></div>
+        <div class="input-group">
+          <label for="signup-name">Name</label>
+          <input type="text" id="signup-name" placeholder="Enter your name" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" placeholder="Create a password" required>
+        </div>
+        <button type="submit">Sign Up</button>
+        <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Mock database for user accounts
+    const users = [
+      { email: "test@example.com", password: "12345" }, // Pre-existing user for testing
+    ];
+
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const showSignup = document.getElementById('show-signup');
+    const showLogin = document.getElementById('show-login');
+    const loginError = document.getElementById('login-error');
+    const signupError = document.getElementById('signup-error');
+
+    // Toggle to Sign-Up Form
+    showSignup.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginForm.classList.add('hidden');
+      signupForm.classList.remove('hidden');
+      loginError.textContent = ""; // Clear error messages
+    });
+
+    // Toggle to Login Form
+    showLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      signupForm.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+      signupError.textContent = ""; // Clear error messages
+    });
+
+    // Login Form Submission
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      // Check if the user exists
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        // Redirect to a blank page (simulate next step)
+        window.location.href = "about:blank";
+      } else {
+        loginError.textContent = "Invalid email or password. Please try again.";
+      }
+    });
+
+    // Sign-Up Form Submission
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      // Check if the user already exists
+      const existingUser = users.find(u => u.email === email);
+      if (existingUser) {
+        signupError.textContent = "Email is already registered.";
+        return;
+      }
+
+      // Add the new user to the database
+      users.push({ email, password });
+      alert("Sign-up successful! You can now log in.");
+      signupForm.reset();
+      signupForm.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>

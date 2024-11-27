@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PyCode Editor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+    <div id="app-container">
+        <!-- Question Section -->
+        <div class="resizable question-section" id="question-section">
+            <h2>Questions</h2>
+            <div id="question-text">Question 1: Write a Python program to print "Hello, World!".</div>
+            <div class="question-navigation">
+                <button id="prev-btn" class="nav-btn">⬅ Previous</button>
+                <button id="next-btn" class="nav-btn">Next ➡</button>
+            </div>
+        </div>
+    
+        <!-- Vertical Divider for resizing -->
+        <div class="divider vertical-divider" id="vertical-divider"></div>
+    
+        <!-- Editor and Output Section -->
+        <div class="editor-container" id="editor-container">
+            <div class="editor-section resizable" id="code-editor-container">
+                <textarea id="code-editor"></textarea>
+                <div class="floating-actions">
+                    <button class="fab" id="run-btn" title="Run Code">▶</button>
+                    <button class="fab" id="save-btn" title="Save Snippet">💾</button>
+                </div>
+                <div id="loading-spinner">Executing...</div>
+            </div>
+    
+            <!-- Horizontal Divider for resizing -->
+            <div class="divider horizontal-divider" id="horizontal-divider"></div>
+    
+            <div class="editor-section resizable" id="output-console-container">
+                <div id="output-console"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
