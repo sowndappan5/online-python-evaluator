@@ -42,6 +42,5 @@ This project is an online platform for evaluating Python programs, designed to o
 ## **Installation**
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-repo-link
-   cd your-repo-folder
-
+   git clone https://github.com/sowndappan5/online-python-evaluator
+   cd online-python-evaluator
