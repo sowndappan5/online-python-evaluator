@@ -1,4 +1,4 @@
-# **Online Python Program Evaluation Tool**
+# **Online Python Program Evaluator Tool**
 
 ## **Project Overview**
 This project is an online platform for evaluating Python programs, designed to offer users a seamless experience in coding, testing, and receiving immediate feedback. The tool is built with **HTML, CSS, JavaScript, and Flask** for the backend, leveraging modern web development technologies to ensure a user-friendly interface & efficient evaluation process.
