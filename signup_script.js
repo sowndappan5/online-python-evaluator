@@ -37,7 +37,7 @@ const users = [
   
     if (user) {
       // Redirect to a blank page (simulate next step)
-      window.location.href = "about:blank";
+      window.location.href = "index.html";
     } else {
       loginError.textContent = "Invalid email or password. Please try again.";
     }
