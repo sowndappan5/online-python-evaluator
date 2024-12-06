@@ -1,58 +1,46 @@
-# Online Python Program Evaluation Tool
+# **Online Python Program Evaluation Tool**
 
-## Project Overview
-This project aims to build an online tool for evaluating Python programs, allowing users to authenticate, code, run test cases, and get immediate feedback. Built with React for the frontend, Python for the backend, and an open-source database, this project will support agile development and collaborative work on GitHub.
+## **Project Overview**
+This project is an online platform for evaluating Python programs, designed to offer users a seamless experience in coding, testing, and receiving immediate feedback. The tool is built with **HTML, CSS, JavaScript, and Flask** for the backend, leveraging modern web development technologies to ensure a user-friendly interface and efficient evaluation process.
 
-## Table of Contents
+---
+
+## **Table of Contents**
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
+- [Usage Instructions](#usage-instructions)
 - [Branching Strategy](#branching-strategy)
 - [GitHub Workflow](#github-workflow)
 - [Contributing](#contributing)
 - [License](#license)
 
-## Features
-- **User Authentication**: Users authenticate using email before accessing the tool.
-- **Programming Questions Display**: Shows questions and provides a coding area.
-- **Real-Time Evaluation**: Provides immediate feedback on code based on test cases.
-- **Countdown Timer**: Shows time remaining for the test.
-- **Result Display**: Displays scores immediately after the test ends.
-- **Navigation Warning**: Warns users if they navigate away during the test.
-- **Feedback on Test Cases**: Indicates the number of test cases passed.
+---
 
-## Tech Stack
-- **Frontend**: React.js
-- **Backend**: Python
-- **Database**: MySQL
-- **Code Editor Library**: CodeMirror / Monaco Editor
+## **Features**
+- **User Authentication**: Users log in using email to access the tool.
+- **Programming Questions Display**: Displays coding questions alongside an embedded coding area.
+- **Real-Time Evaluation**: Executes Python code against predefined test cases and provides instant feedback.
+- **Countdown Timer**: Tracks the time remaining for users to complete the test.
+- **Result Display**: Displays scores and feedback on passed/failed test cases immediately after submission.
+- **Navigation Warning**: Alerts users if they attempt to leave the page during the test.
+- **Responsive Design**: The platform is mobile-friendly and adapts to various screen sizes.
+
+---
+
+## **Tech Stack**
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Python (Flask)
+- **Code Editor**: Ace Editor / CodeMirror (optional, if used)
+- **Database**: SQLite or MySQL (based on project choice)
 - **Version Control**: Git and GitHub
-- **Continuous Integration**: GitHub Actions
+- **Deployment**: Flask server (local or cloud-hosted)
 
-## Installation
-To set up the project locally:
+---
 
-### Prerequisites
-- **Node.js** (>= 14.x) and **npm**
-- **Python** (>= 3.7)
-- **Git** for version control
-- **Database**: MySQL
-
-### Steps
-1. **Clone the repository**:
+## **Installation**
+1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/sowndappan5/online-python-evaluator.git
+   git clone https://github.com/sowndappan5/online-python-evaluator
    cd online-python-evaluator
-
-2. **Install Frontend Dependencies**: Navigate to the frontend directory and install the required packages.
-
-   ```bash
-   cd client
-   npm install
-   
-3. **Install Backend Dependencies**: Navigate to the backend directory and install the required Python packages.
-
-   ```bash
-   cd ../server
-   pip install -r requirements.txt
