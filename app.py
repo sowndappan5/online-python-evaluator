@@ -1,52 +1,37 @@
-import sys
-import traceback
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import io
 import contextlib
+from dataset import problems_dataset, test_solution  # Import from the previous file
 
 app = Flask(__name__)
-CORS(app, resources={r"/execute": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-@app.route('/execute', methods=['POST'])
-def execute_code():
+@app.route('/problems/<int:problem_id>', methods=['GET'])
+def get_problem(problem_id):
+    if problem_id not in problems_dataset:
+        return jsonify({'error': 'Problem not found'}), 404
+    
+    problem = problems_dataset[problem_id]
+    return jsonify({
+        'title': problem['title'],
+        'description': problem['description'],
+        'function_template': problem['function_template'],
+        'sample_inputs': problem['sample_inputs'],
+        'sample_outputs': problem['sample_outputs']
+    })
+
+@app.route('/execute/<int:problem_id>', methods=['POST'])
+def execute_code(problem_id):
+    if problem_id not in problems_dataset:
+        return jsonify({'error': 'Problem not found'}), 404
+    
     code = request.json.get('code', '')
     
-    # Capture stdout and stderr
-    output = io.StringIO()
-    error = io.StringIO()
+    # Test the solution
+    result = test_solution(problem_id, code)
     
-    # Create a dictionary to store local variables
-    namespace = {}
-    
-    try:
-        # Redirect stdout and stderr
-        with contextlib.redirect_stdout(output), contextlib.redirect_stderr(error):
-            # Compile the code first
-            compiled_code = compile(code, '<string>', 'exec')
-            
-            # Execute the compiled code with a namespace
-            exec(compiled_code, namespace)
-        
-        # Get the captured output
-        stdout = output.getvalue()
-        stderr = error.getvalue()
-        
-        # Combine outputs
-        full_output = stdout + stderr
-        
-        return jsonify({
-            'success': True,
-            'output': full_output if full_output else 'Code executed successfully. No output.',
-        })
-    
-    except Exception as e:
-        # Capture any execution errors
-        error_trace = traceback.format_exc()
-        return jsonify({
-            'success': False,
-            'output': error_trace
-        })
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
