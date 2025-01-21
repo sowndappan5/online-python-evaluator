@@ -1,54 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>PyCode Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Code Problems</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #282a36;
+            --secondary-bg: #44475a;
+            --text-color: #f8f8f2;
+            --accent-color: #bd93f9;
+            --success-color: #50fa7b;
+            --error-color: #ff5555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        /* Divider styles */
+        .divider {
+            background-color: var(--accent-color);
+            transition: background-color 0.2s;
+        }
+
+        .vertical-divider {
+            width: 4px;
+            cursor: ew-resize;
+            margin: 0;
+            background-color: var(--accent-color);
+        }
+
+        .horizontal-divider {
+            height: 4px;
+            cursor: ns-resize;
+            margin: 0;
+            background-color: var(--accent-color);
+        }
+
+        .divider:hover {
+            background-color: #ff79c6;
+        }
+
+        /* Update container and panel styles for resizing */
+        .container {
+            display: flex;
+            height: 100vh;
+            padding: 20px;
+            gap: 0;
+            /* Remove gap as we're using dividers */
+            overflow: hidden;
+        }
+
+        .problem-panel {
+            min-width: 300px;
+            max-width: 800px;
+            width: 40%;
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            /* Remove gap as we're using divider */
+            min-width: 400px;
+            padding-left: 20px;
+        }
+
+        .code-editor {
+            flex: 1;
+            min-height: 200px;
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .output-panel {
+            height: 200px;
+            min-height: 100px;
+            max-height: calc(100vh - 300px);
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            font-family: monospace;
+            margin-top: 20px;
+        }
+
+        .CodeMirror {
+            flex: 1;
+            height: 100% !important;
+            width: 100%;
+            font-size: 14px;
+            background-color: var(--primary-bg) !important;
+            color: #f8f8f2 !important;
+        }
+
+        .CodeMirror-gutters {
+            background-color: var(--primary-bg) !important;
+            border-right: 1px solid var(--secondary-bg) !important;
+        }
+
+        .CodeMirror-linenumber {
+            color: #6272a4 !important;
+        }
+
+        .CodeMirror-cursor {
+            border-left: 2px solid #f8f8f2 !important;
+        }
+
+        /* Syntax highlighting colors */
+        .cm-s-dracula .cm-keyword {
+            color: #ff79c6 !important;
+        }
+
+        .cm-s-dracula .cm-operator {
+            color: #ff79c6 !important;
+        }
+
+        .cm-s-dracula .cm-variable {
+            color: #f8f8f2 !important;
+        }
+
+        .cm-s-dracula .cm-builtin {
+            color: #50fa7b !important;
+        }
+
+        .cm-s-dracula .cm-number {
+            color: #bd93f9 !important;
+        }
+
+        .cm-s-dracula .cm-string {
+            color: #f1fa8c !important;
+        }
+
+        .cm-s-dracula .cm-comment {
+            color: #6272a4 !important;
+        }
+
+
+
+        .problem-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: opacity 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #run-button {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            background-color: var(--success-color);
+            color: var(--primary-bg);
+            font-weight: bold;
+        }
+
+        .problem-content {
+            margin-bottom: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background-color: var(--primary-bg);
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .success {
+            color: var(--success-color);
+        }
+
+        .error {
+            color: var(--error-color);
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 4px;
+            color: var(--accent-color);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+    </style>
 </head>
+
 <body>
-    <canvas id="matrix-bg"></canvas>
-    <div id="app-container">
-        <!-- Question Section -->
-        <div class="resizable question-section" id="question-section">
-            <h2>Questions</h2>
-            <div id="question-text">Question 1: Write a Python program to print "Hello, World!".</div>
-            <div class="question-navigation">
-                <button id="prev-btn" class="nav-btn">⬅ Previous</button>
-                <button id="next-btn" class="nav-btn">Next ➡</button>
+    <!-- Replace the container div in your HTML with this -->
+    <div class="container">
+        <!-- Problem Panel -->
+        <div class="problem-panel">
+            <div class="problem-content">
+                <h1>Python Code Problems</h1>
+                <div id="problem-title"></div>
+                <div id="problem-description"></div>
+                <h3>Sample Test Cases:</h3>
+                <div id="sample-cases">
+                    <h4>Inputs:</h4>
+                    <div id="sample-inputs"></div>
+                    <h4>Outputs:</h4>
+                    <div id="sample-outputs"></div>
+                </div>
+            </div>
+            <div class="problem-navigation">
+                <button id="prev-btn">← Previous</button>
+                <button id="next-btn">Next →</button>
             </div>
         </div>
-    
-        <!-- Vertical Divider for resizing -->
-        <div class="divider vertical-divider" id="vertical-divider"></div>
-    
-        <!-- Editor and Output Section -->
-        <div class="editor-container" id="editor-container">
-            <div class="editor-section resizable" id="code-editor-container">
+
+        <!-- Vertical Divider -->
+        <div class="divider vertical-divider"></div>
+
+        <!-- Editor Panel -->
+        <div class="editor-panel">
+            <div class="code-editor">
                 <textarea id="code-editor"></textarea>
-                <div class="floating-actions">
-                    <button class="fab" id="run-btn" title="Run Code">▶</button>
-                    <button class="fab" id="save-btn" title="Save Snippet">💾</button>
-                </div>
-                <div id="loading-spinner">Executing...</div>
+                <button id="run-button">Run Code</button>
+                <div class="loading" id="loading-spinner">Running tests...</div>
             </div>
-    
-            <!-- Horizontal Divider for resizing -->
-            <div class="divider horizontal-divider" id="horizontal-divider"></div>
-    
-            <div class="editor-section resizable" id="output-console-container">
-                <div id="output-console"></div>
-            </div>
+
+            <!-- Horizontal Divider -->
+            <div class="divider horizontal-divider"></div>
+
+            <div class="output-panel" id="output-console"></div>
         </div>
     </div>
-    
-    
-    
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
