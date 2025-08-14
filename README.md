@@ -5,6 +5,12 @@ This project is an online platform for evaluating Python programs, designed to o
 
 ---
 
+<p><strong>System Screen:</strong><br>
+  <img src="python.png" width="400">
+</a></p>
+
+---
+
 ## **Features**
 - **User Authentication**: Users log in using email to access the tool.
 - **Programming Questions Display**: Displays coding questions alongside an embedded coding area.
@@ -21,5 +27,14 @@ This project is an online platform for evaluating Python programs, designed to o
 - **Database**: Excel (Initially)
 - **Version Control**: Git and GitHub
 - **Deployment**: Flask server (local)
+
+---
+
+## 👤 Author
+**Sowndappan S**
+Email: santoshsowndappan@gmail.com
+
+**Mythili S**
+**Kowsika H**
 
 ---
